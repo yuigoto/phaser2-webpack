@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "module": "ESNext",
+    "target": "ES5",
+    "allowJs": true,
+    "baseUrl": "./",
+    "paths": {
+      "*": [
+        "node_modules/*", 
+        "src/*"
+      ]
+    },
+    "sourceMap": true,
+    "strictNullChecks": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "allowSyntheticDefaultImports": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "lib": [
+      "ES5",
+      "DOM",
+      "DOM.Iterable",
+      "ESNext"
+    ]
+  },
+  "include": [
+    "node_modules/phaser-ce/typescript/*.d.ts",
+    "global.d.ts",
+    "src/**/*",
+    "src/*",
+  ]
+}

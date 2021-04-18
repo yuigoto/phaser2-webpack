@@ -1,0 +1,22 @@
+{
+  "name": "Phaser CE Base",
+  "version": "0.0.1",
+  "description": "A boilerplate for games made with Phaser CE and Webpack",
+  "repository": "https://github.com/yuigoto/phaser-ce-base",
+  "url": "https://yuiti.dev/phaser-ce-boilerplate",
+  "keywords": [
+    "phaser",
+    "game",
+    "boilerplate",
+    "javascript",
+    "typescript"
+  ],
+  "author": "Fabio Y. Goto",
+  "lang": "en", 
+  "copyright": "©2021 YUITI",
+  "license": "MIT",
+  "controls": [
+    "Place your controls in this array. And they will be rendered on the descriptions.",
+    "Well, at least they should be rendered."
+  ]
+}

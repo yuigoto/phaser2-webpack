@@ -1,0 +1,14 @@
+.idea/
+.vs/
+.vscode/
+
+build/
+node_modules/
+review/
+scratch/
+
+package-lock.json
+yarn.lock
+yarn-error.txt
+
+*.log
