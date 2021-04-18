@@ -14,7 +14,7 @@ All imports from `src` are absolute, including media files, images and others, s
 
 > **DISCLAIMER**:
 > 
-> The images and sound files in this project come from my _Ludum Dare 42/LOWREZJAM 2018 game_, found [**over here**](Ludum Dare 42/LOWREZJAM 2018 game).
+> The images and sound files in this project come from my _Ludum Dare 42/LOWREZJAM 2018 game_, found [**over here**](https://github.com/yuigoto/ludumdare-42).
 
 ---
 
