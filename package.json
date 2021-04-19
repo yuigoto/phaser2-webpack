@@ -1,17 +1,36 @@
 {
   "name": "phaser-ce-base",
-  "description": "A boilerplate for games using Phaser CE with TypeScript and Webpack.",
   "version": "0.0.1",
+  "description": "A boilerplate for games using Phaser CE with TypeScript and Webpack.",
   "main": "src/index.ts",
-  "license": "MIT",
+  "sideEffects": [
+    "*.css", 
+    "*.scss"
+  ],
   "scripts": {
     "dev": "webpack serve --mode development",
     "start": "webpack --mode development",
     "build": "webpack --mode production"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yuigoto/phaser-ce-base.git"
+  },
+  "keywords": [
+    "typescript",
+    "javascript",
+    "webpack",
+    "phaser",
+    "game"
+  ],
+  "author": "Fabio Y. Goto <lab@yuiti.dev>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yuigoto/phaser-ce-base/issues"
+  },
+  "homepage": "https://github.com/yuigoto/phaser-ce-base#readme",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.3",
-    "dotenv": "^8.2.0",
     "phaser-ce": "^2.17.0"
   },
   "devDependencies": {
@@ -22,6 +41,7 @@
     "babel-polyfill": "^6.26.0",
     "copy-webpack-plugin": "^8.1.1",
     "css-loader": "^5.2.2",
+    "dotenv": "^8.2.0",
     "expose-loader": "^2.0.0",
     "file-loader": "^6.2.0",
     "html-minimizer-webpack-plugin": "^2.1.0",

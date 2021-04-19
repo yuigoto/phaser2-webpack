@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "A boilerplate for games made with Phaser CE and Webpack",
   "repository": "https://github.com/yuigoto/phaser-ce-base",
-  "url": "https://yuiti.dev/phaser-ce-boilerplate",
+  "url": "https://github.com/yuigoto/phaser-ce-base",
   "keywords": [
     "phaser",
     "game",
