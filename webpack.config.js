@@ -342,6 +342,10 @@ module.exports = (env, argv) => {
         "phaser-ce/build/custom/p2.js"
       ),
     },
+    fallback: {
+      path: false,
+      fs: false
+    }
   };
 
   config.stats = {
