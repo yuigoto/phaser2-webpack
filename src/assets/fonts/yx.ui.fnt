@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <font>
-  <info face="yx_ui" size="10" bold="0" italic="0" charset="" unicode="1" stretchH="100" smooth="0" aa="1" padding="0,0,0,0" spacing="2,1" outline="0"/>
-  <common lineHeight="10" base="8" scaleW="256" scaleH="256" pages="1" packed="0" alphaChnl="1" redChnl="0" greenChnl="0" blueChnl="0"/>
+  <info face="yx_ui" size="10" bold="0" italic="0" charset="" unicode="1" stretchH="100" smooth="0" aa="1" padding="0,0,0,0" spacing="2,1" outline="0" />
+  <common lineHeight="10" base="8" scaleW="256" scaleH="256" pages="1" packed="0" alphaChnl="1" redChnl="0" greenChnl="0" blueChnl="0" />
   <pages>
-    <page id="0" file="yx_ui_0.png" />
+    <page id="0" file="yx.ui.png" />
   </pages>
   <chars count="192">
     <char id="32" x="117" y="29" width="3" height="1" xoffset="-1" yoffset="9" xadvance="3" page="0" chnl="15" />

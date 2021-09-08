@@ -1,22 +1,16 @@
-import Info from "info.json";
-import Boot from "states/Boot";
-import { Preload } from "states/Preload";
-import { Title } from "states/Title";
-
 /**
- * core/Main
+ * main
  * ----------------------------------------------------------------------
- * Main game class, bootstraps the game and its scenes.
- *
- * Also responsible for filling game information on the HTML.
- *
- * @since 0.0.1
+ * @author      Fabio Y. Goto <lab@yuiti.dev>
+ * @since       0.0.1
  */
+import { Boot } from "game/states/boot";
+import { Preload } from "game/states/preload";
+import { Title } from "game/states/title";
+import Info from "info.json";
+
 export default class Main extends Phaser.Game {
-  /**
-   * constructor.
-   */
-  constructor () {
+  constructor() {
     super(
       GAME_CANVAS_WIDTH || 640,
       GAME_CANVAS_HEIGHT || 360,
@@ -29,11 +23,11 @@ export default class Main extends Phaser.Game {
 
     Main.setGameInfo();
 
-    this.state.add("Boot", Boot, false);
-    this.state.add("Preload", Preload, false);
-    this.state.add("Title", Title, false);
+    this.state.add("boot", Boot, false);
+    this.state.add("preload", Preload, false);
+    this.state.add("title", Title, false);
 
-    this.state.start("Boot");
+    this.state.start("boot");
   }
 
   /**
@@ -41,7 +35,7 @@ export default class Main extends Phaser.Game {
    *
    * @private
    */
-  private static setGameInfo (): void {
+  private static setGameInfo(): void {
     const header = document.querySelector("#header");
     const footer = document.querySelector("#footer");
     const data = document.querySelector("#info");

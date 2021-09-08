@@ -1,10 +1,8 @@
 /**
  * global.d
  * ----------------------------------------------------------------------
- * Declares some global stuff, like constants and modules for some file 
- * types, so they can be imported directly from TS.
- * 
- * @since 0.0.1
+ * @author      Fabio Y. Goto <lab@yuiti.dev>
+ * @since       0.0.1
  */
 
 // GLOBALS

@@ -1,36 +1,33 @@
 {
   "compilerOptions": {
-    "noImplicitAny": true,
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "module": "ESNext",
-    "target": "ES5",
     "allowJs": true,
-    "baseUrl": "./",
-    "paths": {
-      "*": [
-        "node_modules/*", 
-        "src/*"
-      ]
-    },
-    "sourceMap": true,
-    "strictNullChecks": true,
-    "removeComments": true,
-    "preserveConstEnums": true,
     "allowSyntheticDefaultImports": true,
-    "isolatedModules": true,
+    "baseUrl": "./",
+    "declaration": false,
     "esModuleInterop": true,
-    "lib": [
-      "ES5",
-      "DOM",
-      "DOM.Iterable",
-      "ESNext"
-    ]
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "lib": ["ES5", "DOM", "DOM.Iterable", "ESNext"],
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "noEmit": false,
+    "noImplicitAny": true,
+    "outDir": "build",
+    "paths": {
+      "*": ["node_modules/*", "src/*"]
+    },
+    "preserveConstEnums": true,
+    "removeComments": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "sourceMap": false,
+    "strict": true,
+    "strictNullChecks": true,
+    "target": "ES5"
   },
-  "include": [
-    "node_modules/phaser-ce/typescript/*.d.ts",
-    "global.d.ts",
-    "src/**/*",
-    "src/*",
-  ]
+  "exclude": ["./src/**/*.spec.ts"],
+  "files": ["./global.d.ts"],
+  "include": ["node_modules/phaser-ce/typescript/*.d.ts", "src/**/*.ts"]
 }

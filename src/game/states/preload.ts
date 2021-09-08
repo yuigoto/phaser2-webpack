@@ -1,32 +1,37 @@
+/**
+ * game/states/preload
+ * ----------------------------------------------------------------------
+ * @author      Fabio Y. Goto <lab@yuiti.dev>
+ * @since       0.0.1
+ */
 import { Assets } from "game/assets";
 
 export class Preload extends Phaser.State {
-  preloadInner: Phaser.Sprite;
-  preloadOuter: Phaser.Sprite;
+  /**
+   * Preloader inner bar.
+   */
+  preloadInner: Phaser.Sprite | null = null;
 
-  preload () {
-    this.setLoaderImages();
+  /**
+   * Outer frame of the preloader.
+   */
+  preloadOuter: Phaser.Sprite | null = null;
 
-    if (Assets.image) {
+  preload() {
+    this.setLoaderSprites();
+
+    if (Assets?.image) {
       for (let image of Assets.image) {
         if (!image.ignore) {
-          this.load.image(
-            image.name,
-            image.file,
-            image.overwrite
-          );
+          this.load.image(image.name, image.file, image.overwrite);
         }
       }
     }
 
-    if (Assets.sound) {
+    if (Assets?.sound) {
       for (let sound of Assets.sound) {
         if (!sound.ignore) {
-          this.load.audio(
-            sound.name,
-            sound.file,
-            sound.autoDecode
-          );
+          this.load.audio(sound.name, sound.file, sound.autoDecode);
         }
       }
     }
@@ -60,31 +65,31 @@ export class Preload extends Phaser.State {
         }
       }
     }
-    
-    // Load your @font-face fonts (i.e.: Google Fonts, etc.) dynamically here.
+
+    // All your @font-face fonts should be loaded in here
   }
 
-  create () {
-    this.state.start("Title");
+  create() {
+    this.state.start("title");
   }
 
-  protected setLoaderImages () {
+  protected setLoaderSprites() {
     this.preloadOuter = this.add.sprite(
       this.game.world.centerX,
       this.game.world.centerY,
-      "loader-outer"
+      "loader.outer"
     );
     this.preloadOuter.x -= this.preloadOuter.width / 2;
     this.preloadOuter.y -= this.preloadOuter.height / 2;
-    
+
     this.preloadInner = this.add.sprite(
       this.game.world.centerX,
       this.game.world.centerY,
-      "loader-inner"
+      "loader.inner"
     );
     this.preloadInner.anchor.setTo(0, 0);
     this.preloadInner.x -= this.preloadInner.width / 2;
-    this.preloadInner.y -= this.preloadInner.height / 2;
+    this.preloadInner.y -= this.preloadOuter.height / 2;
 
     this.load.setPreloadSprite(this.preloadInner, 0);
   }

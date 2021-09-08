@@ -1,14 +1,12 @@
-.idea/
-.vs/
-.vscode/
+.DS_Store/
+
+node_modules/
 
 build/
-node_modules/
+dist/
 review/
 scratch/
 
 package-lock.json
 yarn.lock
-yarn-error.txt
-
-*.log
+yarn-error.log

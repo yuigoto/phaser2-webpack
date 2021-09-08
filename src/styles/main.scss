@@ -34,12 +34,24 @@ h6 {
   margin: auto;
 }
 
-h1 { font-size: 3.00rem; }
-h2 { font-size: 2.50rem; }
-h3 { font-size: 2.00rem; }
-h4 { font-size: 1.50rem; }
-h5 { font-size: 1.25rem; }
-h6 { font-size: 1.00rem; }
+h1 {
+  font-size: 3rem;
+}
+h2 {
+  font-size: 2.5rem;
+}
+h3 {
+  font-size: 2rem;
+}
+h4 {
+  font-size: 1.5rem;
+}
+h5 {
+  font-size: 1.25rem;
+}
+h6 {
+  font-size: 1rem;
+}
 
 .main {
   width: 100%;
@@ -60,7 +72,7 @@ h6 { font-size: 1.00rem; }
 
   main {
     width: 100%;
-    padding: 1rem;
+    padding: 1rem 0;
 
     canvas {
       background: #000;
@@ -82,7 +94,7 @@ h6 { font-size: 1.00rem; }
 }
 
 .author {
-  font-size: .9rem;
+  font-size: 0.9rem;
   font-weight: 300;
   font-style: oblique;
 }
@@ -108,7 +120,7 @@ h6 { font-size: 1.00rem; }
     color: #999;
     font-weight: 600;
     text-decoration: none;
-    transition: .3s;
+    transition: 0.3s;
   }
 }
 

@@ -1,19 +1,21 @@
-import { AssetList } from "core/types/assets";
-import { AssetListImage } from "game/assets/AssetListImage";
-import { AssetListSound } from "game/assets/AssetListSound";
-import { AssetListBitmapFont } from "game/assets/AssetListBitmapFont";
-import { AssetListSpriteSheet } from "game/assets/AssetListSpriteSheet";
-
 /**
  * game/assets
  * ----------------------------------------------------------------------
- * Main object that centralizes all assets.
- *
- * @since 0.0.1
+ * @author      Fabio Y. Goto <lab@yuiti.dev>
+ * @since       0.0.1
+ */
+import { AssetList } from "core/types/assets";
+import { BitmapFontList } from "game/assets/fonts";
+import { ImageList } from "game/assets/images";
+import { SoundList } from "game/assets/sounds";
+import { SpriteSheetList } from "game/assets/spritesheets";
+
+/**
+ * Centralizes all asset lists for the game.
  */
 export const Assets: AssetList = {
-  bitmapFont: AssetListBitmapFont,
-  image: AssetListImage,
-  sound: AssetListSound,
-  spriteSheet: AssetListSpriteSheet,
+  bitmapFont: BitmapFontList,
+  image: ImageList,
+  sound: SoundList,
+  spriteSheet: SpriteSheetList,
 };
