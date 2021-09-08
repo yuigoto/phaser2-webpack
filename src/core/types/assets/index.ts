@@ -1,5 +1,14 @@
+/**
+ * core/types/assets
+ * ----------------------------------------------------------------------
+ * @author      Fabio Y. Goto <lab@yuiti.dev>
+ * @since       0.0.1
+ */
 import { HashMap } from "core/types";
 
+/**
+ * Basic asset properties.
+ */
 export type Asset = HashMap<any> & {
   name: string;
   file: string;
