@@ -1,0 +1,19 @@
+/**
+  assets/scss/variables
+  ----------------------------------------------------------------------
+  This file contains all the variables used in the project.
+
+  It's also automatically imported in all the other scss files, so you can
+  just use the variables directly.
+
+  @author     Fabio Y. Goto <lab@yuiti.dev>
+  @since      0.0.1
+ */
+
+$rhythm: 16;
+$rhythm-unit: px;
+
+$font-family: 'Inter Tight', Inter, Roboto, Helvetica, Arial, sans-serif;
+
+// FontAwesome path override
+$fa-font-path: '~@fortawesome/fontawesome-free/webfonts';

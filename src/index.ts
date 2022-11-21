@@ -1,8 +1,18 @@
-import Main from "main";
-import "styles/main.scss";
+/**
+ * index
+ * ----------------------------------------------------------------------
+ * Main application entry point.
+ *
+ * @author      Fabio Y. Goto <lab@yuiti.dev>
+ * @since       0.0.1
+ */
+import Main from '@/main';
+import { onDocumentReady } from '@/core/utils';
+import '@/assets/scss/main.scss';
 
-if (window) {
-  window.onload = () => {
-    new Main();
-  };
-}
+/**
+ * Main entry point.
+ */
+onDocumentReady(() => {
+  new Main();
+});

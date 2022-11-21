@@ -1,19 +1,13 @@
 {
-  "name": "Phaser2 Webpack",
+  "name": "Phaser 2 Webpack",
   "version": "0.0.1",
-  "description": "A boilerplate for games made with Phaser 2 (CE) and Webpack",
+  "description": "A boilerplate for games made with Phaser CE and Webpack 5",
   "repository": "https://github.com/yuigoto/phaser2-webpack",
   "url": "https://github.com/yuigoto/phaser2-webpack",
-  "keywords": [
-    "phaser",
-    "game",
-    "boilerplate",
-    "javascript",
-    "typescript"
-  ],
+  "keywords": ["phaser", "game", "boilerplate", "javascript", "typescript"],
   "author": "Fabio Y. Goto",
-  "lang": "en", 
-  "copyright": "©2021 YUITI",
+  "lang": "en",
+  "copyright": "©2021-2022 YUITI",
   "license": "MIT",
   "controls": [
     "Place your controls in this array. And they will be rendered on the descriptions.",

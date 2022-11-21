@@ -1,57 +1,89 @@
 # `phaser2-webpack`
 
-> A boilerplate for games using Phaser 2 (CE) with TypeScript and Webpack.
+> Boilerplate for games using Phaser CE and Webpack 5.
 
-<small>
-  <em>by Fabio Y. Goto</em>
-</small>
-
-> **DISCLAIMER**:
->
-> The images and sound files in this project come from my _Ludum Dare 42/LOWREZJAM 2018 game_, found [**over here**](https://github.com/yuigoto/ludumdare-42).
+> **:warning: DISCLAIMER**
+> 
+> The images and sounds in this project come from my _Ludum Dare 42/LOWREZJAM 
+> 2018 game_, found [**here**](https://github.com/yuigoto/ludum-dare-42). As 
+> such, I own the rights to them and they are not free to use. If you want to 
+> use this project as a base for your own game, please replace/remove the 
+> images and sounds with your own.
 
 ---
 
 ## Features
 
-- Uses Phaser CE;
-- Modules!;
-- Latest version of TypeScript (as of now) and a nice `tsconfig.json` for your Intellisense pleasure;
-- Uses Webpack 5 for bundling;
-- SCSS/SASS for styling;
-- Automatically fills game information on the HTML (as long as you provide'em on the `info.json` file) and inside `meta` tags too (also some `og` tags);
-- Resolves all your absolute imports so you can import images, audio and data directly from TypeScript (because I'm far too lazy to remember `../../../../../../../../data`);
-- FontAwesome Free for some icons, fonts are imported right into your build folder;
-
 ---
 
 ## Requirements
 
-- `node` (**`v14.x.x`**);
-
-See `package.json` for all dependencies on this project.
+- [**Node.js**](https://nodejs.org/en/) (v16.13 or higher)	
 
 ---
 
 ## How To
 
-Clone or fork this repository, then run `npm install` or `yarn` to install all dependencies. After that, you can:
+Clone or fork this repository, run `npm install` (or `yarn`) to install all 
+dependencies. After that, run any of these commands:
 
-- `npm run start` or `yarn start` to run the project locally in development mode;
-- `npm run build` or `yarn build` to build the project for production;
+- `npm run dev` (or `yarn dev`) to start the local development server with hot 
+  reloading;
+- `npm run build` (or `yarn build`) to build the project for production;
+- `npm run serve` (or `yarn serve`) to serve the production build locally;
+
+---
+
+## Project Structure
+
+The project structure might look a little bit strange and wonky, but that's what 
+worked best for me. The important thing to point is on the diagram below:
+
+```yaml
+- public/
+  - index.html
+  - favicon.ico
+  - preview.png
+- src/
+  - assets/ <------------ Contains all asset files, loaded by '/game/assets'
+    - audio/
+    - data/
+    - fonts/
+    - img/
+    - scss/
+  - core/
+    - constants/
+    - entities/
+    - interfaces/
+    - types/
+    - utils/
+  - game/
+    - assets/ <---------- Contains all game asset objects loading from `/assets`
+      - atlas/
+      - audio/
+      - image/
+      - sound/
+      - spritesheet/
+      - tilemap/
+    - config/
+    - scenes/
+  - index.ts
+  - info.json <---------- Contains game information, used by `/game/config`
+  - main.ts
+```
 
 ---
 
 ## Authors
 
-See `AUTHORS.md` file for details.
+See `AUTHORS.md` for more information.
 
 ---
 
 ## License
 
-This projects is licensed under the `MIT License`. See `LICENSE.md` for details.
+This project is licensed under the `MIT License`. See the `LICENSE.md` file for details.
 
 ---
 
-_&copy;2021 YUITI_
+_&copy;2021-2022 Fabio Y. Goto_

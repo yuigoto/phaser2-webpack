@@ -1,0 +1,171 @@
+/**
+  assets/scss/main
+  ----------------------------------------------------------------------
+  Main stylesheet for the project.
+
+  @author     Fabio Y. Goto <lab@yuiti.dev>
+  @since      0.0.1
+ */
+
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import '~@fortawesome/fontawesome-free/scss/brands';
+@import '~@fortawesome/fontawesome-free/scss/regular';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+
+:root {
+  --font-family: #{$font-family};
+  --font-size: #{$rhythm}#{$rhythm-unit};
+}
+
+* {
+  &,
+  &::before,
+  &::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100vh;
+}
+
+html {
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  line-height: 1.25;
+  margin: 0 0 0.5rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.game {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+
+  &__wrap {
+    width: 100%;
+    max-width: 640px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__header,
+  &__main,
+  &__info,
+  &__footer {
+    margin: 0 0 0.5rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__header {
+    width: 100%;
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 300;
+    }
+  }
+
+  &__main {
+    background: #ddd;
+    display: flex;
+    flex-direction: column;
+
+    canvas {
+      margin: 0;
+    }
+  }
+
+  &__info {
+    width: 100%;
+  }
+
+  &__footer {
+    border-top: 1px solid #d0d0d0;
+    width: 100%;
+    padding-top: 0.25rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+
+    p {
+      margin: 0;
+    }
+  }
+
+  &__author {
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  &__description {
+    font-size: 0.9rem;
+    font-weight: 400;
+  }
+
+  &__controls {
+    list-style-position: inside;
+    list-style-type: circle;
+
+    li {
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin: 0 0 0.25rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  &__copy {
+    color: #808080;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: inline-flex;
+  }
+
+  &__repository {
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: inline-flex;
+
+    a {
+      color: #808080;
+      text-decoration: none;
+      transition: 0.3s;
+
+      &:hover {
+        color: #a0a0a0;
+      }
+    }
+  }
+}

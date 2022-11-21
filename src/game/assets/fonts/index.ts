@@ -4,17 +4,16 @@
  * @author      Fabio Y. Goto <lab@yuiti.dev>
  * @since       0.0.1
  */
-import { AssetBitmapFont } from "core/types/assets";
+import { AssetBitmapFont } from '@/core/types/assets';
 
 /**
- * Holds data for all bitmap fonts.
+ * Bitmap font store.
  */
 export const BitmapFontList: Array<AssetBitmapFont> = [
   {
-    name: "yx_ui",
-    file: require("assets/fonts/yx.ui.png"),
-    atlas: require("assets/fonts/yx.ui.fnt"),
-    atlasData: undefined,
+    name: 'yx_ui',
+    file: require('@/assets/fonts/yx.ui.png'),
+    atlas: require('@/assets/fonts/yx.ui.fnt'),
     ignore: false,
   },
 ];

@@ -1,22 +1,33 @@
 /**
- * game/states/preload
+ * game/scenes/preload
  * ----------------------------------------------------------------------
  * @author      Fabio Y. Goto <lab@yuiti.dev>
  * @since       0.0.1
  */
-import { Assets } from "game/assets";
+import Assets from '@/game/assets';
 
+/**
+ * Preload scene.
+ */
 export class Preload extends Phaser.State {
   /**
-   * Preloader inner bar.
+   * Scene key.
+   */
+  static SCENE_KEY = 'preload';
+
+  /**
+   * Preload inner bar.
    */
   preloadInner: Phaser.Sprite | null = null;
 
   /**
-   * Outer frame of the preloader.
+   * Preload outer frame.
    */
   preloadOuter: Phaser.Sprite | null = null;
 
+  /**
+   * Preloads all assets.
+   */
   preload() {
     this.setLoaderSprites();
 
@@ -36,7 +47,7 @@ export class Preload extends Phaser.State {
       }
     }
 
-    if (Assets.spriteSheet) {
+    if (Assets?.spriteSheet) {
       for (let spriteSheet of Assets.spriteSheet) {
         if (!spriteSheet.ignore) {
           this.load.spritesheet(
@@ -53,7 +64,7 @@ export class Preload extends Phaser.State {
       }
     }
 
-    if (Assets.bitmapFont) {
+    if (Assets?.bitmapFont) {
       for (let bitmapFont of Assets.bitmapFont) {
         if (!bitmapFont.ignore) {
           this.load.bitmapFont(
@@ -66,18 +77,24 @@ export class Preload extends Phaser.State {
       }
     }
 
-    // All your @font-face fonts should be loaded in here
+    // Load @font-face fonts here, if needed.
   }
 
+  /**
+   * Creates the scene.
+   */
   create() {
-    this.state.start("title");
+    this.state.start('title');
   }
 
+  /**
+   * Sets the preloader sprites.
+   */
   protected setLoaderSprites() {
     this.preloadOuter = this.add.sprite(
       this.game.world.centerX,
       this.game.world.centerY,
-      "loader.outer"
+      'loader.outer'
     );
     this.preloadOuter.x -= this.preloadOuter.width / 2;
     this.preloadOuter.y -= this.preloadOuter.height / 2;
@@ -85,11 +102,10 @@ export class Preload extends Phaser.State {
     this.preloadInner = this.add.sprite(
       this.game.world.centerX,
       this.game.world.centerY,
-      "loader.inner"
+      'loader.inner'
     );
-    this.preloadInner.anchor.setTo(0, 0);
     this.preloadInner.x -= this.preloadInner.width / 2;
-    this.preloadInner.y -= this.preloadOuter.height / 2;
+    this.preloadInner.y -= this.preloadInner.height / 2;
 
     this.load.setPreloadSprite(this.preloadInner, 0);
   }

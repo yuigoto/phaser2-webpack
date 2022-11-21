@@ -1,19 +1,27 @@
 /**
  * main
  * ----------------------------------------------------------------------
+ * Main game entry point.
+ *
  * @author      Fabio Y. Goto <lab@yuiti.dev>
  * @since       0.0.1
  */
-import { Boot } from "game/states/boot";
-import { Preload } from "game/states/preload";
-import { Title } from "game/states/title";
-import Info from "info.json";
+import Info from '@/info.json';
+import { Boot } from '@/game/states/boot';
+import { Preload } from '@/game/states/preload';
+import { Title } from '@/game/states/title';
 
+/**
+ * Main game instance.
+ */
 export default class Main extends Phaser.Game {
+  /**
+   * Main constructor.
+   */
   constructor() {
     super(
-      GAME_CANVAS_WIDTH || 640,
-      GAME_CANVAS_HEIGHT || 360,
+      GAME_CANVAS_WIDTH,
+      GAME_CANVAS_HEIGHT,
       Phaser.AUTO,
       GAME_CANVAS_ID,
       null,
@@ -23,63 +31,74 @@ export default class Main extends Phaser.Game {
 
     Main.setGameInfo();
 
-    this.state.add("boot", Boot, false);
-    this.state.add("preload", Preload, false);
-    this.state.add("title", Title, false);
+    this.state.add(Boot.SCENE_KEY, Boot, false);
+    this.state.add(Preload.SCENE_KEY, Preload, false);
+    this.state.add(Title.SCENE_KEY, Title, false);
 
-    this.state.start("boot");
+    this.state.start(Boot.SCENE_KEY);
   }
 
   /**
-   * Fills up game information on the page's HTML.
+   * Sets game info on the page's HTML.
    *
    * @private
    */
   private static setGameInfo(): void {
-    const header = document.querySelector("#header");
-    const footer = document.querySelector("#footer");
-    const data = document.querySelector("#info");
+    const header = document.querySelector('#header');
+    header?.classList.add('game__header');
 
-    const title = document.createElement("h1");
-    title.innerHTML = Info.name;
+    const footer = document.querySelector('#footer');
+    footer?.classList.add('game__footer');
 
-    const author = document.createElement("p");
-    author.classList.add("author");
-    author.innerHTML = Info.author;
+    const data = document.querySelector('#info');
+    data?.classList.add('game__info');
 
     if (header) {
+      const title = document.createElement('h1');
+      title.innerHTML = Info.name;
+
+      const author = document.createElement('p');
+      author.classList.add('game__author');
+      author.innerHTML = `${Info.author}`;
+
       header.appendChild(title);
       header.appendChild(author);
     }
 
-    const description = document.createElement("p");
-    description.classList.add("description");
-    description.innerHTML = Info.description;
-
-    const controls = document.createElement("ul");
-    controls.classList.add("controls");
-
-    for (let line of Info.controls) {
-      let item = document.createElement("li");
-      item.innerHTML = line;
-      controls.appendChild(item);
-    }
-
     if (data) {
+      const description = document.createElement('p');
+      description.classList.add('game__description');
+      description.innerHTML = Info.description;
+
+      const controls = document.createElement('ul');
+      controls.classList.add('game__controls');
+
+      for (let line of Info.controls) {
+        let item = document.createElement('li');
+        item.innerHTML = line;
+        controls.appendChild(item);
+      }
+
       data.appendChild(description);
       data.appendChild(controls);
     }
 
-    const copy = document.createElement("p");
-    copy.classList.add("copy");
-    copy.innerHTML = Info.copyright;
-
-    const repository = document.createElement("p");
-    repository.classList.add("repository");
-    repository.innerHTML = `<a href="${Info.repository}" target="_blank"><i class="fab fa-github"></i> GitHub</a>`;
-
     if (footer) {
-      if (typeof Info.repository !== "undefined") {
+      const copy = document.createElement('p');
+      copy.classList.add('game__copy');
+      copy.innerHTML = `${Info.copyright}`;
+
+      const repository = document.createElement('p');
+      repository.classList.add('game__repository');
+
+      const repositoryLink = document.createElement('a');
+      repositoryLink.href = Info?.repository ?? '';
+      repositoryLink.rel = 'noreferrer';
+      repositoryLink.target = '_blank';
+      repositoryLink.innerHTML = `<i class="fab fa-github"></i> GitHub`;
+
+      if (typeof Info.repository !== 'undefined') {
+        repository.appendChild(repositoryLink);
         footer.appendChild(repository);
       }
       footer.appendChild(copy);

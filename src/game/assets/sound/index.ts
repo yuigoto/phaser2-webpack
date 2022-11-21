@@ -1,29 +1,29 @@
 /**
- * game/assets/sounds
+ * game/assets/sound
  * ----------------------------------------------------------------------
  * @author      Fabio Y. Goto <lab@yuiti.dev>
  * @since       0.0.1
  */
-import { AssetSound } from "core/types/assets";
+import { AssetSound } from '@/core/types/assets';
 
 /**
- * Stores all sould files for the game.
+ * Sound and music store.
  */
 export const SoundList: Array<AssetSound> = [
   {
-    name: "sound.door",
+    name: 'sound.door',
     file: [
-      require("assets/audio/sound.door.mp3"),
-      require("assets/audio/sound.door.ogg"),
+      require('@/assets/audio/sound.door.mp3'),
+      require('@/assets/audio/sound.door.ogg'),
     ],
     autoDecode: false,
     ignore: false,
   },
   {
-    name: "sound.lock",
+    name: 'sound.lock',
     file: [
-      require("assets/audio/sound.lock.mp3"),
-      require("assets/audio/sound.lock.ogg"),
+      require('@/assets/audio/sound.lock.mp3'),
+      require('@/assets/audio/sound.lock.ogg'),
     ],
     autoDecode: false,
     ignore: false,

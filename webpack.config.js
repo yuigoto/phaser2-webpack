@@ -1,61 +1,94 @@
 /**
  * webpack.config
  * ----------------------------------------------------------------------
+ * Webpack configuration file.
+ *
  * @author      Fabio Y. Goto <lab@yuiti.dev>
  * @since       0.0.1
  */
-require("dotenv/config");
+require('dotenv/config');
 
-const autoprefixer = require("autoprefixer");
-const fs = require("fs");
-const htmlInterpolate = require("interpolate-html-plugin");
-const htmlWebpack = require("html-webpack-plugin");
-const miniCssExtract = require("mini-css-extract-plugin");
-const path = require("path");
-const sass = require("sass");
-const webpack = require("webpack");
-const { TsconfigPathsPlugin } = require("tsconfig-paths-webpack-plugin");
-const info = require("./src/info.json");
+const { readdirSync } = require('fs');
+const { resolve } = require('path');
+const autoprefixer = require('autoprefixer');
+const sass = require('sass');
+const copyWebpackPlugin = require('copy-webpack-plugin');
+const interpolateHtmlPlugin = require('interpolate-html-plugin');
+const htmlWebpackPlugin = require('html-webpack-plugin');
+const miniCssExtractPlugin = require('mini-css-extract-plugin');
+const { TsconfigPathsPlugin } = require('tsconfig-paths-webpack-plugin');
+const webpack = require('webpack');
+
+const packageInfo = require('./package.json');
+
+// CONSTANTS
+// ----------------------------------------------------------------------
 
 /**
- * Current working directory.
+ * Current working directory, relative to the directory of the main caller,
+ * usually the repository's root.
  *
  * @type {string}
  */
 const WORK_DIR = process.cwd();
 
 /**
- * Returns the entry point file name for the desired folder.
+ * SASS root directory, so we don't have to import everything and are able
+ * to make auto imports possible.
+ *
+ * @type {string}
+ */
+const SASS_ROOT = resolve(WORK_DIR, 'src', 'assets', 'scss').replace(
+  /\\/g,
+  '/'
+);
+
+/**
+ * Global SASS/SCSS imports, so we don't have to manually add global utilities
+ * and variables.
+ *
+ * @type {string}
+ */
+const SASS_GLOBAL_IMPORTS = `@import "${SASS_ROOT}/variables";
+@import "${SASS_ROOT}/functions";
+@import "${SASS_ROOT}/mixins";`;
+
+// HELPERS
+// ----------------------------------------------------------------------
+
+/**
+ * Retrieves the entry point file from the desired folder.
  *
  * @param {string} folder
- *     Path to the folder, relative to the repository root
+ *     Path to the folder to check, relative to the repository root
  * @returns {string}
  */
-const getEntryPointFile = (folder) => {
-  const files = fs.readdirSync(path.resolve(WORK_DIR, folder));
-  const extensions = ["ts", "js", "mjs"];
+function getEntryPointFromFolder(folder) {
+  const files = readdirSync(resolve(WORK_DIR, folder));
+  // Order of priority!
+  const extensions = ['ts', 'js', 'mjs'];
   for (let extension of extensions) {
     if (files.includes(`index.${extension}`)) return `index.${extension}`;
   }
   return `index.js`;
-};
+}
+
+// WEBPACK CONFIGURATION
+// ----------------------------------------------------------------------
 
 /**
- * Builds the configuration data for Webpack.
  *
  * @param {*} env
- *     Object containing environment variables
  * @param {*} argv
- *     Object containing command line arguments
  * @returns {import("webpack").Configuration}
  */
 module.exports = (env, argv) => {
-  const ASSET_PATHS = ["", "img", "fonts", "media", "data"].map(
+  const ASSET_PATH_INDEX = ['', 'audio', 'data', 'fonts', 'img'].map(
     (item) =>
-      new htmlWebpack({
+      new htmlWebpackPlugin({
         inject: false,
         filename:
-          item.trim() !== ""
+          item.trim() !== ''
             ? `assets/${item}/index.html`
             : `assets/index.html`,
         templateContent: `<!doctype html><html><head><title>Not Allowed</title><meta http-equiv="refresh" content="0; url=/"></head></html>`,
@@ -69,16 +102,16 @@ module.exports = (env, argv) => {
       })
   );
 
-  const PRODUCTION = argv.mode === "production";
+  const PRODUCTION = argv?.mode === 'production';
 
-  const RESOLVE_PATHS = [path.resolve(WORK_DIR, "./src")];
+  const RESOLVE_PATHS = [resolve(WORK_DIR, 'src')];
 
   // LOADERS
   // --------------------------------------------------------------------
 
   /** @type {import("webpack").RuleSetUseItem} */
   const cssLoader = {
-    loader: "css-loader",
+    loader: 'css-loader',
     options: {
       importLoaders: 2,
       sourceMap: false,
@@ -87,40 +120,34 @@ module.exports = (env, argv) => {
 
   /** @type {import("webpack").RuleSetUseItem} */
   const postcssLoader = {
-    loader: "postcss-loader",
+    loader: 'postcss-loader',
     options: {
       sourceMap: false,
       postcssOptions: {
-        plugins: [
-          autoprefixer({
-            flexbox: "no-2009",
-          }),
-        ],
+        plugins: [autoprefixer({ flexbox: 'no-2009' })],
       },
     },
   };
 
   /** @type {import("webpack").RuleSetUseItem} */
   const sassLoader = {
-    loader: "sass-loader",
+    loader: 'sass-loader',
     options: {
+      additionalData: SASS_GLOBAL_IMPORTS,
       implementation: sass,
-      sourceMap: false,
       sassOptions: {
+        includePaths: [resolve(SASS_ROOT)],
         precision: 8,
-        outputStyle: "compressed",
+        quietDeps: true,
+        outputStyle: 'compressed',
         sourceComments: false,
-        quietDeps: false,
-        includePaths: [path.resolve(WORK_DIR, "src", "styles")],
       },
+      sourceMap: false,
     },
   };
 
   /** @type {import("webpack").RuleSetUseItem} */
-  const styleLoader = PRODUCTION ? miniCssExtract.loader : "style-loader";
-
-  // CONFIGURATION
-  // --------------------------------------------------------------------
+  const styleLoader = PRODUCTION ? miniCssExtractPlugin.loader : 'style-loader';
 
   /** @type {import("webpack").Configuration} */
   const config = {};
@@ -131,22 +158,20 @@ module.exports = (env, argv) => {
     port: 1280,
   };
 
-  config.devtool = PRODUCTION ? "source-map" : false;
+  config.devtool = PRODUCTION ? false : 'source-map';
 
   /**
-   * The key order DOES matter in here.
-   *
-   * Vendor should ALWAYS come first.
+   * The key order is important here, vendors first, then the rest.
    */
   config.entry = {
-    vendor: ["p2", "pixi", "phaser"],
+    vendor: ['p2', 'pixi', 'phaser'],
     index: {
-      import: path.resolve(WORK_DIR, "./src", getEntryPointFile("./src")),
-      dependOn: ["vendor"],
+      import: resolve(WORK_DIR, 'src', getEntryPointFromFolder('src')),
+      dependOn: ['vendor'],
     },
   };
 
-  config.mode = PRODUCTION ? "production" : "development";
+  config.mode = PRODUCTION ? 'production' : 'development';
 
   config.module = {
     rules: [
@@ -154,8 +179,9 @@ module.exports = (env, argv) => {
         test: /\.(m?js|ts)$/,
         use: [
           {
-            loader: "babel-loader",
+            loader: 'babel-loader',
             options: {
+              compact: true,
               babelrc: true,
             },
           },
@@ -168,61 +194,61 @@ module.exports = (env, argv) => {
       {
         test: /\.(png|jpg|jpeg|gif|webp)$/,
         use: {
-          loader: "file-loader",
+          loader: 'file-loader',
           options: {
-            name: "[hash:8].[ext]",
+            name: '[contenthash].[ext]',
             esModule: false,
-            outputPath: "assets/img/",
-            publicPath: "/assets/img/",
+            outputPath: 'assets/img/',
+            publicPath: '/assets/img/',
           },
         },
       },
       {
         test: /\.(eot|fnt|otf|ttf|woff|woff2|svg)$/,
         use: {
-          loader: "file-loader",
+          loader: 'file-loader',
           options: {
-            name: "[hash:8].[ext]",
+            name: '[contenthash].[ext]',
             esModule: false,
-            outputPath: "assets/fonts/",
-            publicPath: "/assets/fonts/",
+            outputPath: 'assets/fonts/',
+            publicPath: '/assets/fonts/',
           },
         },
       },
       {
         test: /\.(wav|mp3|mp4|avi|mpg|mpeg|mov|ogg|webm)$/,
         use: {
-          loader: "file-loader",
+          loader: 'file-loader',
           options: {
-            name: "[hash:8].[ext]",
+            name: '[contenthash].[ext]',
             esModule: false,
-            outputPath: "assets/media/",
-            publicPath: "/assets/media/",
+            outputPath: 'assets/media/',
+            publicPath: '/assets/media/',
           },
         },
       },
       {
         test: /\.(pdf|doc|docx|xls|xlsx|ppt|pptx)$/,
         use: {
-          loader: "file-loader",
+          loader: 'file-loader',
           options: {
-            name: "[hash:8].[ext]",
+            name: '[contenthash].[ext]',
             esModule: false,
-            outputPath: "assets/data/",
-            publicPath: "/assets/data/",
+            outputPath: 'assets/data/',
+            publicPath: '/assets/data/',
           },
         },
       },
 
-      // PHASER DEPENDENCIES
+      // Handling Phaser Dependencies
       {
         test: /pixi\.js/,
         use: [
           {
-            loader: "expose-loader",
+            loader: 'expose-loader',
             options: {
               exposes: {
-                globalName: "PIXI",
+                globalName: 'PIXI',
                 override: true,
               },
             },
@@ -230,13 +256,13 @@ module.exports = (env, argv) => {
         ],
       },
       {
-        test: /phaser-split\.js/,
+        test: /phaser-split\.js$/,
         use: [
           {
-            loader: "expose-loader",
+            loader: 'expose-loader',
             options: {
               exposes: {
-                globalName: "Phaser",
+                globalName: 'Phaser',
                 override: true,
               },
             },
@@ -247,10 +273,10 @@ module.exports = (env, argv) => {
         test: /p2\.js/,
         use: [
           {
-            loader: "expose-loader",
+            loader: 'expose-loader',
             options: {
               exposes: {
-                globalName: "p2",
+                globalName: 'p2',
                 override: true,
               },
             },
@@ -262,53 +288,92 @@ module.exports = (env, argv) => {
 
   config.optimization = {
     minimize: PRODUCTION,
+    splitChunks: {
+      chunks: 'all',
+      maxInitialRequests: Infinity,
+      minSize: 0,
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: (module) => {
+            const packageName = module.context.match(
+              /[\\/]node_modules[\\/](.*?)([\\/]|$)/
+            )[1];
+
+            // If you want vendor modules grouped together in a single file:
+            // return `npm.libs`;
+
+            return `npm.${packageName.replace('@', '')}`;
+          },
+        },
+      },
+    },
   };
 
   config.output = {
     clean: true,
-    filename: "[name].[hash:8].js",
-    path: path.resolve(WORK_DIR, "build"),
+    filename: '[name].[contenthash].js',
+    path: resolve(WORK_DIR, 'build').replace(/\\/g, '/'),
     pathinfo: !PRODUCTION,
-    publicPath: "/",
+    publicPath: '/',
+  };
+
+  config.performance = {
+    maxEntrypointSize: 512000 * 8, // 4MB entry point size
+    maxAssetSize: 512000 * 8, // 4MB asset size
   };
 
   config.plugins = [
-    ...ASSET_PATHS,
+    ...ASSET_PATH_INDEX,
 
-    new htmlWebpack({
+    new copyWebpackPlugin({
+      patterns: [
+        {
+          from: resolve(WORK_DIR, 'public'),
+          to: '',
+          toType: 'dir',
+          globOptions: {
+            dot: true,
+            ignore: ['**/*.html'],
+          },
+        },
+      ],
+    }),
+
+    new htmlWebpackPlugin({
       inject: true,
-      filename: "index.html",
-      template: path.resolve(WORK_DIR, "public", "index.html"),
+      filename: 'index.html',
+      template: resolve(WORK_DIR, 'public', 'index.html'),
       hash: true,
       minify: {
+        collapseWhitespace: true,
         minifyCSS: true,
         minifyJS: true,
         removeComments: true,
-        collapseWhitespace: true,
       },
     }),
 
-    new htmlInterpolate({
-      GAME_TITLE: `${info.name} | ${info.version} | ${info.author}`,
-      GAME_AUTHOR: info.author,
-      GAME_DESCRIPTION: info.description,
-      GAME_URL: info.url,
-      GAME_LANG: info.lang,
-      GAME_KEYWORDS: info.keywords.join(", "),
+    new interpolateHtmlPlugin({
+      GAME_TITLE: `${packageInfo.name} | ${packageInfo.version} | ${packageInfo.author}`,
+      GAME_AUTHOR: packageInfo.author,
+      GAME_DESCRIPTION: packageInfo.description,
+      GAME_URL: packageInfo.homepage,
+      GAME_LANG: packageInfo.lang,
+      GAME_KEYWORDS: packageInfo.keywords.join(', '),
       GAME_CANVAS_ID: process.env.GAME_CANVAS_ID,
       GAME_CANVAS_WIDTH: process.env.GAME_CANVAS_WIDTH,
       GAME_CANVAS_HEIGHT: process.env.GAME_CANVAS_HEIGHT,
     }),
 
-    new miniCssExtract({
-      filename: "css/[name].css",
-      chunkFilename: "css/[name].[chunkname].css",
+    new miniCssExtractPlugin({
+      filename: 'css/[name].css',
+      chunkFilename: 'css/[name].[contenthash].css',
     }),
 
     new webpack.DefinePlugin({
       // Phaser canvas renderer type globals
-      "typeof CANVAS_RENDERER": JSON.stringify(true),
-      "typeof WEBGL_RENDERER": JSON.stringify(true),
+      'typeof CANVAS_RENDERER': JSON.stringify(true),
+      'typeof WEBGL_RENDERER': JSON.stringify(true),
 
       // Passing environment variables as globals
       GAME_CANVAS_ID: process.env.GAME_CANVAS_ID,
@@ -318,54 +383,50 @@ module.exports = (env, argv) => {
   ];
 
   config.resolve = {
-    modules: [...RESOLVE_PATHS, "node_modules"],
-    extensions: [".js", ".mjs", ".ts"],
+    modules: [...RESOLVE_PATHS, 'node_modules'],
+    alias: {
+      '@': resolve(WORK_DIR, 'src').replace(/\\/g, '/'),
+      pixi: resolve(WORK_DIR, 'node_modules', 'phaser-ce/build/custom/pixi.js'),
+      phaser: resolve(
+        WORK_DIR,
+        'node_modules',
+        'phaser-ce/build/custom/phaser-split.js'
+      ),
+      p2: resolve(WORK_DIR, 'node_modules', 'phaser-ce/build/custom/p2.js'),
+    },
+    extensions: ['.js', '.mjs', '.ts'],
     plugins: [
       new TsconfigPathsPlugin({
-        configFile: "tsconfig.json",
+        configFile: 'tsconfig.json',
       }),
     ],
-    alias: {
-      pixi: path.resolve(
-        WORK_DIR,
-        "node_modules",
-        "phaser-ce/build/custom/pixi.js"
-      ),
-      phaser: path.resolve(
-        WORK_DIR,
-        "node_modules",
-        "phaser-ce/build/custom/phaser-split.js"
-      ),
-      p2: path.resolve(
-        WORK_DIR,
-        "node_modules",
-        "phaser-ce/build/custom/p2.js"
-      ),
-    },
     fallback: {
+      fs: false,
       path: false,
-      fs: false
-    }
+    },
   };
 
   config.stats = {
-    colors: true,
-    hash: false,
-    version: false,
-    timings: true,
     assets: true,
-    chunks: false,
-    modules: false,
-    reasons: false,
     children: false,
-    source: false,
-    errors: true,
+    chunkModules: true,
+    chunks: false,
+    colors: true,
     errorDetails: true,
-    warnings: true,
+    errors: true,
+    errorsCount: true,
+    errorStack: true,
+    hash: false,
+    modules: false,
     publicPath: false,
+    reasons: false,
+    source: false,
+    timings: true,
+    version: false,
+    warnings: true,
   };
 
-  config.target = "web";
+  config.target = 'web';
 
   return config;
 };
