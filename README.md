@@ -12,10 +12,6 @@
 
 ---
 
-## Features
-
----
-
 ## Requirements
 
 - [**Node.js**](https://nodejs.org/en/) (v16.13 or higher)	
