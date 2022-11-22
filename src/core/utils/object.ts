@@ -1,4 +1,12 @@
-import { hasOwn } from '.';
+/**
+ * core/utils/object
+ * ----------------------------------------------------------------------
+ * Core object utility functions.
+ *
+ * @author      Fabio Y. Goto <lab@yuiti.dev>
+ * @since       0.0.1
+ */
+import { hasOwn } from '@/core/utils';
 
 /**
  * Serializes an object to a string, based on jQuery's `param` function.

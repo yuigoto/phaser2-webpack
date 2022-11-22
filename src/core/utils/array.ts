@@ -7,7 +7,7 @@
  * @since       0.0.1
  */
 
-import { Axis } from '../types/math';
+import { Axis } from '@/core/types/math';
 
 /**
  * Removes an item from an array.
