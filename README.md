@@ -5,7 +5,7 @@
 > **:warning: DISCLAIMER**
 > 
 > The images and sounds in this project come from my _Ludum Dare 42/LOWREZJAM 
-> 2018 game_, found [**here**](https://github.com/yuigoto/ludum-dare-42). As 
+> 2018 game_, found [**here**](https://github.com/yuigoto/ludumdare-42). As 
 > such, I own the rights to them and they are not free to use. If you want to 
 > use this project as a base for your own game, please replace/remove the 
 > images and sounds with your own.
